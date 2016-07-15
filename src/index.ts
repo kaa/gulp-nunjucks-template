@@ -20,5 +20,6 @@ export default function(template: string) {
     var resFile = file.clone({contents: false});
     resFile.contents = new Buffer(data);
     resFile.extname = ".html";
+    callback(null, resFile);
   });
 };

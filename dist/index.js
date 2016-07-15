@@ -17,6 +17,7 @@ function default_1(template) {
         var resFile = file.clone({ contents: false });
         resFile.contents = new Buffer(data);
         resFile.extname = ".html";
+        callback(null, resFile);
     });
 }
 Object.defineProperty(exports, "__esModule", { value: true });
