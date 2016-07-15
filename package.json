@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/kaa/gulp-guidestyle/issues"
   },
-  "homepage": "https://github.com/kaa/gulp-guidestyle#readme"
+  "homepage": "https://github.com/kaa/gulp-guidestyle#readme",
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "nunjucks": "^2.4.2",
+    "through2": "^2.0.1"
+  }
 }
