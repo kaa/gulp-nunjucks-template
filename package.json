@@ -1,0 +1,23 @@
+{
+  "name": "gulp-nunjucks-template",
+  "version": "1.0.0",
+  "description": "Apply a nunjucks template to a JSON object or file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaa/gulp-guidestyle.git"
+  },
+  "keywords": [
+    "nunjucks",
+    "gulp"
+  ],
+  "author": "kaa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaa/gulp-guidestyle/issues"
+  },
+  "homepage": "https://github.com/kaa/gulp-guidestyle#readme"
+}

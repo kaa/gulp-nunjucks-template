@@ -1,0 +1,11 @@
+{
+  "globalDependencies": {
+    "chalk": "registry:dt/chalk#0.4.0+20160317120654",
+    "gulp-util": "registry:dt/gulp-util#0.0.0+20160316155526",
+    "nunjucks": "registry:dt/nunjucks#0.0.0+20160602153016",
+    "vinyl": "registry:dt/vinyl#1.1.0+20160316155526"
+  },
+  "dependencies": {
+    "through2": "registry:npm/through2#2.0.0+20160308004148"
+  }
+}
