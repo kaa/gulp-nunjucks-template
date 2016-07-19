@@ -3,23 +3,29 @@ const gutil = require('gulp-util');
 const through = require('through2');
 const nunjucks = require('nunjucks');
 const path = require('path');
-function default_1(template) {
+const PLUGIN_NAME = "gulp-nunjucks-template";
+function default_1(template, options) {
+    options = Object.assign({}, options);
     return through.obj(function (file, encoding, callback) {
         if (file.isNull()) {
-            callback(null, file);
-            return;
+            return callback(null, file);
         }
         if (file.isStream() || !(file.contents instanceof Buffer)) {
-            callback(new gutil.PluginError('gulp-guidestyle', 'Streaming not supported'));
-            return;
+            return this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
         }
         var data = JSON.parse(file.contents.toString());
-        var res = nunjucks.render(template, data);
+        let result;
+        try {
+            result = nunjucks.render(template, data);
+        }
+        catch (err) {
+            return this.emit('error', new gutil.PluginError(PLUGIN_NAME, err, { fileName: template }));
+        }
         var basename = path.basename(file.path), stylename = basename.substr(0, basename.length - path.extname(basename).length);
-        var resFile = file.clone({ contents: false });
-        resFile.path = path.join(file.base, stylename + ".html");
-        resFile.contents = new Buffer(data);
-        callback(null, resFile);
+        var resultFile = file.clone({ contents: false });
+        resultFile.path = path.join(file.base, options.fileName || (stylename + ".html"));
+        resultFile.contents = new Buffer(result);
+        callback(null, resultFile);
     });
 }
 Object.defineProperty(exports, "__esModule", { value: true });
