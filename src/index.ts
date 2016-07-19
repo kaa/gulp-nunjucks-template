@@ -7,7 +7,8 @@ const PLUGIN_NAME = "gulp-nunjucks-template";
 
 export default function(template: string, options?: any) {
   options = Object.assign({}, options);
-  nunjucks.configure({noCache: true});
+  let nunjucksOptions = Object.assign({noCache: true}, options.nunjucks);
+  nunjucks.configure(nunjucksOptions);
   return through.obj(function(file:gutil.File, encoding: string, callback: (err?: Error, data?: gutil.File) => void): void {
 		if (file.isNull()) {
 			return callback(null, file);
@@ -23,7 +24,6 @@ export default function(template: string, options?: any) {
     try {
       result = nunjucks.render(template, data);
     } catch(err) {
-      process.stderr.write(err + '\n');
       return callback(new gutil.PluginError(PLUGIN_NAME, err, {fileName: template}));
     }
     var basename = path.basename(file.path),
