@@ -19,7 +19,8 @@ function default_1(template, options) {
             result = nunjucks.render(template, data);
         }
         catch (err) {
-            return this.emit('error', new gutil.PluginError(PLUGIN_NAME, err, { fileName: template }));
+            process.stderr.write(err + '\n');
+            return callback(new gutil.PluginError(PLUGIN_NAME, err, { fileName: template }));
         }
         var basename = path.basename(file.path), stylename = basename.substr(0, basename.length - path.extname(basename).length);
         var resultFile = file.clone({ contents: false });
