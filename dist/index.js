@@ -7,7 +7,8 @@ const PLUGIN_NAME = "gulp-nunjucks-template";
 function default_1(template, options) {
     options = Object.assign({}, options);
     let nunjucksOptions = Object.assign({ noCache: true }, options.nunjucks);
-    nunjucks.configure(nunjucksOptions);
+    var env = nunjucks.configure(nunjucksOptions);
+    env.addFilter("isArray", t => t instanceof Array);
     return through.obj(function (file, encoding, callback) {
         if (file.isNull()) {
             return callback(null, file);
