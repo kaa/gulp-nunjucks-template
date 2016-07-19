@@ -6,6 +6,7 @@ const path = require('path');
 const PLUGIN_NAME = "gulp-nunjucks-template";
 function default_1(template, options) {
     options = Object.assign({}, options);
+    nunjucks.configure({ noCache: true });
     return through.obj(function (file, encoding, callback) {
         if (file.isNull()) {
             return callback(null, file);

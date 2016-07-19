@@ -7,6 +7,7 @@ const PLUGIN_NAME = "gulp-nunjucks-template";
 
 export default function(template: string, options?: any) {
   options = Object.assign({}, options);
+  nunjucks.configure({noCache: true});
   return through.obj(function(file:gutil.File, encoding: string, callback: (err?: Error, data?: gutil.File) => void): void {
 		if (file.isNull()) {
 			return callback(null, file);
