@@ -7,16 +7,14 @@ const PLUGIN_NAME = "gulp-nunjucks-template";
 
 export default function(template: string, options?: any) {
   options = Object.assign({}, options);
-  let nunjucksOptions = Object.assign({noCache: true}, options.nunjucks),
-      nunjucksFilters = nunjucksOptions.filters || {},
-      nunjucksGlobals = nunjucksOptions.globals || {};
+  let nunjucksOptions = Object.assign({noCache: true}, options.nunjucks);
   var env = nunjucks.configure(nunjucksOptions);
   env.addFilter("nunjucks", (t,data) => nunjucks.renderString(t, data));
-  Object.keys(nunjucksFilters).forEach(key => {
-    env.addFilter(key, nunjucksFilters[key])
+  Object.keys(options.filters || {}).forEach(key => {
+    env.addFilter(key, options.filters[key])
   });
-  Object.keys(nunjucksGlobals).forEach(key => {
-    env.addFilter(key, nunjucksGlobals[key])
+  Object.keys(options.globals || {}).forEach(key => {
+    env.addFilter(key, options.globals[key])
   });
 
   return through.obj(function(file:gutil.File, encoding: string, callback: (err?: Error, data?: gutil.File) => void): void {
