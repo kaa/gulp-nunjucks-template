@@ -7,9 +7,18 @@ const PLUGIN_NAME = "gulp-nunjucks-template";
 
 export default function(template: string, options?: any) {
   options = Object.assign({}, options);
-  let nunjucksOptions = Object.assign({noCache: true}, options.nunjucks);
+  let nunjucksOptions = Object.assign({noCache: true}, options.nunjucks),
+      nunjucksFilters = nunjucksOptions.filters || {},
+      nunjucksGlobals = nunjucksOptions.globals || {};
   var env = nunjucks.configure(nunjucksOptions);
-  env.addFilter("isArray", t => t instanceof Array);
+  env.addFilter("nunjucks", (t,data) => nunjucks.renderString(t, data));
+  Object.keys(nunjucksFilters).forEach(key => {
+    env.addFilter(key, nunjucksFilters[key])
+  });
+  Object.keys(nunjucksGlobals).forEach(key => {
+    env.addFilter(key, nunjucksGlobals[key])
+  });
+
   return through.obj(function(file:gutil.File, encoding: string, callback: (err?: Error, data?: gutil.File) => void): void {
 		if (file.isNull()) {
 			return callback(null, file);
@@ -30,7 +39,7 @@ export default function(template: string, options?: any) {
     var basename = path.basename(file.path),
         stylename = basename.substr(0, basename.length-path.extname(basename).length);
     var resultFile = file.clone({contents: false});
-    resultFile.path = path.join(file.base, options.fileName || (stylename+".html"));
+    resultFile.path = gutil.replaceExtension(file.path, ".json");
     resultFile.contents = new Buffer(result);
     callback(null, resultFile);
   });
