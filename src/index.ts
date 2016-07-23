@@ -14,7 +14,7 @@ export default function(template: string, options?: any) {
     env.addFilter(key, options.filters[key])
   });
   Object.keys(options.globals || {}).forEach(key => {
-    env.addFilter(key, options.globals[key])
+    env.addGlobal(key, options.globals[key])
   });
 
   return through.obj(function(file:gutil.File, encoding: string, callback: (err?: Error, data?: gutil.File) => void): void {
@@ -37,7 +37,7 @@ export default function(template: string, options?: any) {
     var basename = path.basename(file.path),
         stylename = basename.substr(0, basename.length-path.extname(basename).length);
     var resultFile = file.clone({contents: false});
-    resultFile.path = gutil.replaceExtension(file.path, ".json");
+    resultFile.path = gutil.replaceExtension(file.path, ".html");
     resultFile.contents = new Buffer(result);
     callback(null, resultFile);
   });
